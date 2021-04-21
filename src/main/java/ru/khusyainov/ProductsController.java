@@ -11,7 +11,7 @@ import ru.khusyainov.model.Product;
 import java.util.List;
 
 @Controller
-@RequestMapping("/products")
+@RequestMapping("/")
 public class ProductsController {
     private ProductRepository productRepository;
 
@@ -22,21 +22,22 @@ public class ProductsController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String showAllProducts(Model uiModel){
-        List<Product> productsList = productRepository.getProductsList();
+        List<Product> productsList = productRepository.findAll();
         uiModel.addAttribute("productsList", productsList);
         return "products";
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String getForm(Model uiModel){
+    @RequestMapping(value = "add", method = RequestMethod.GET)
+    public String getAddProduct(Model uiModel){
         Product product = new Product();
         uiModel.addAttribute("product", product);
         return "add-product";
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String create(Product product) {
+    @RequestMapping(value = "add", method = RequestMethod.POST)
+    public String addProduct(Model uiModel, Product product) {
         productRepository.addProduct(product);
-        return "redirect:/products";
+        uiModel.addAttribute("product", product);
+        return "add-product";
     }
 }

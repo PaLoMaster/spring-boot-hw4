@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headerfiles">
+    <meta charset="UTF-8" />
+</head>
+<body>
+<div th:fragment="header">
+    <h1><a href="/">Products</a></h1>
+    <br/>
+</div>
+<div th:fragment="all-products">
+    <div th:if="${productsList!=null and !productsList.isEmpty()}">
+        <table>
+            <thead>
+            <th width="50">Id</th>
+            <th width="300">Title</th>
+            <th width="50">Cost</th>
+            </thead>
+            <tr th:each="product : ${productsList}" >
+                <td th:text="${product.id}"></td>
+                <td th:text="${product.title}"></td>
+                <td th:text="${product.cost}"></td>
+            </tr>
+        </table>
+    </div>
+    <br/>
+</div>
+<div th:object="${product}" th:fragment="one-product">
+    <div th:if="${product!=null}">
+        <table>
+            <thead>
+            <th width="50">Id</th>
+            <th width="300">Title</th>
+            <th width="50">Cost</th>
+            </thead>
+            <tr>
+                <td th:text="${product.id}"></td>
+                <td th:text="${product.title}"></td>
+                <td th:text="${product.cost}"></td>
+            </tr>
+        </table>
+    </div>
+    <div th:if="${id!=null and product==null}">Продукт с таким id не найден</div>
+    <br/>
+</div>
+<footer th:fragment="footer">
+    <br/>
+    <a href="/add">Add product</a>&nbsp;&nbsp;&nbsp;
+    <a href="/remove">Remove product</a>&nbsp;&nbsp;&nbsp;
+    <a href="/get">Find product by id</a>&nbsp;&nbsp;&nbsp;
+    <a href="/update">Change product</a>
+</footer>
+</body>
+</html>
