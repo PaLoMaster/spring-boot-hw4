@@ -11,11 +11,10 @@ import java.util.List;
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
     private SessionFactory sessionFactory = new Configuration().addAnnotatedClass(Product.class).buildSessionFactory();
-    private Session session;
 
     @Override
     public void addProduct(Product product) {
-        session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         session.save(product);
         session.getTransaction().commit();
@@ -23,7 +22,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public Product findById(int id) {
-        session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         Product result = session.get(Product.class, id);
         session.getTransaction().commit();
@@ -32,7 +31,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public List<Product> findAll() {
-        session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         List<Product> result = session.createQuery("select a from Product a", Product.class).getResultList();
         session.getTransaction().commit();
@@ -41,7 +40,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public void deleteById(int id) {
-        session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         Product toRemove = session.get(Product.class, id);
         if (toRemove != null) session.remove(toRemove);
@@ -50,7 +49,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public Product saveOrUpdate(Product product) {
-        session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         if (product != null) session.saveOrUpdate(product);
         session.getTransaction().commit();
