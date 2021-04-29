@@ -1,6 +1,7 @@
 package ru.khusyainov.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -14,12 +15,16 @@ public class Product {
     @Column(name = "cost")
     private int cost;
 
+    @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
+    List<Buyer> buyers;
+
     public Product() {
     }
 
-    public Product(String title, int cost) {
+    public Product(String title, int cost, List<Buyer> buyers) {
         this.title = title;
         this.cost = cost;
+        this.buyers = buyers;
     }
 
     public Product(int id, String title, int cost) {
@@ -52,12 +57,16 @@ public class Product {
         this.cost = cost;
     }
 
+    public List<Buyer> getBuyers() {
+        return buyers;
+    }
+
+    public void setBuyers(List<Buyer> buyers) {
+        this.buyers = buyers;
+    }
+
     @Override
     public String toString() {
-        return "Product {" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", cost=" + cost +
-                '}';
+        return "Product {" + "id=" + id + ", title='" + title + "'" + ", cost=" + cost + "}";
     }
 }

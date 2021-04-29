@@ -4,41 +4,41 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.khusyainov.HibernateSessionFactory;
-import ru.khusyainov.model.Product;
+import ru.khusyainov.model.Buyer;
 
 import java.util.List;
 
 @Repository
-public class ProductRepositoryImpl implements ProductRepository {
+public class BuyerRepositoryImpl implements BuyerRepository {
     private HibernateSessionFactory sessionFactory;
 
     @Autowired
-    public ProductRepositoryImpl(HibernateSessionFactory sessionFactory) {
+    public BuyerRepositoryImpl(HibernateSessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public void addProduct(Product product) {
+    public void addBuyer(Buyer buyer) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        session.save(product);
+        session.save(buyer);
         session.getTransaction().commit();
     }
 
     @Override
-    public Product findById(int id) {
+    public Buyer findById(int id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Product result = session.get(Product.class, id);
+        Buyer result = session.get(Buyer.class, id);
         session.getTransaction().commit();
         return result;
     }
 
     @Override
-    public List<Product> findAll() {
+    public List<Buyer> findAll() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<Product> result = session.createQuery("select a from Product a", Product.class).getResultList();
+        List<Buyer> result = session.createQuery("select a from Buyer a", Buyer.class).getResultList();
         session.getTransaction().commit();
         return result;
     }
@@ -47,17 +47,17 @@ public class ProductRepositoryImpl implements ProductRepository {
     public void deleteById(int id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Product toRemove = session.get(Product.class, id);
+        Buyer toRemove = session.get(Buyer.class, id);
         if (toRemove != null) session.remove(toRemove);
         session.getTransaction().commit();
     }
 
     @Override
-    public Product saveOrUpdate(Product product) {
+    public Buyer saveOrUpdate(Buyer buyer) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        if (product != null) session.saveOrUpdate(product);
+        if (buyer != null) session.saveOrUpdate(buyer);
         session.getTransaction().commit();
-        return product;
+        return buyer;
     }
 }
