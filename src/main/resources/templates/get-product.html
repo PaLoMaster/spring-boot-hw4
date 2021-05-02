@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <title>Get product</title>
+</head>
+
+<body>
+<script>
+    function idChange() {
+        var idInput = document.getElementById('id');
+        var findHref = document.getElementById('findHref');
+        findHref.href = "/products/" + idInput.value;
+    }
+</script>
+<header th:insert="fragments/general.html :: header"> </header>
+<div th:if="${product!=null and product.id!=null and product.title==null}">
+    <h3>Продукт с id <span th:text="${product.id}"></span> не найден.</h3>
+</div>
+<div th:if="${product!=null and product.title!=null}">
+    <h3>Продукт с id <span th:text="${product.id}"></span>:</h3>
+<div th:insert="fragments/general.html :: one-product"> </div>
+</div>
+<div>
+    Введите id продукта для поиска:
+    Id: <input type="number" id="id" name="id" onchange="idChange()"/>
+    <br/>
+    <a href="/products/get" id="findHref"><button>Find</button></a>
+</div>
+<div th:insert="fragments/general.html :: footer"></div>
+</body>
+</html>

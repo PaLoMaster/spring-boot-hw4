@@ -1,26 +1,77 @@
 <!DOCTYPE HTML>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head th:fragment="headerfiles">
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
 </head>
 <body>
 <div th:fragment="header">
-    <h1><a href="/">Products</a></h1>
+    <h1><a href="/products">Products</a></h1>
     <br/>
 </div>
 <div th:fragment="all-products">
     <div th:if="${productsList!=null and !productsList.isEmpty()}">
         <table>
             <thead>
-            <th width="50">Id</th>
-            <th width="300">Title</th>
-            <th width="50">Cost</th>
+            <tr>
+                <th style="width: 50px">Id</th>
+                <th style="width: 300px">Title</th>
+                <th style="width: 50px">Cost</th>
+                <th></th>
+            </tr>
             </thead>
-            <tr th:each="product : ${productsList}" >
+            <tr th:each="product : ${productsList}">
                 <td th:text="${product.id}"></td>
                 <td th:text="${product.title}"></td>
                 <td th:text="${product.cost}"></td>
+                <td><a th:href="'/products/delete/'+${product.id}">
+                    <button>Delete</button>
+                </a></td>
+            </tr>
+        </table>
+        <script>
+            function filterChange() {
+                var minCost = document.getElementById('minCost');
+                if (minCost.value)
+                    minCost = null;
+                else
+                    minCost = 'minCost=' + minCost.value;
+                var maxCost = document.getElementById('maxCost');
+                if (maxCost.value)
+                    maxCost = null;
+                else
+                    maxCost = 'maxCost=' + maxCost.value;
+                var buttonHref = document.getElementById('filterButton');
+                if (minCost != null && maxCost != null)
+                    buttonHref.href = "/products?" + minCost + "&" + maxCost;
+                else if (minCost != null)
+                    buttonHref.href = "/products?" + minCost;
+                else
+                    buttonHref.href = "/products?" + maxCost;
+            }
+        </script>
+        <table>
+            <thead>
+            <tr>
+                <th colspan="4" style="alignment: center">Filter</th>
+            </tr>
+            <tr>
+                <th style="width: 50px"></th>
+                <th style="width: 300px"></th>
+                <th style="width: 150px">Cost</th>
+            </tr>
+            </thead>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    <input type="number" id="minCost" name="minCost" placeholder="minCost" onchange="filterChange()">
+                    <br/>
+                    <input type="number" id="maxCost" name="maxCost" placeholder="maxCost" onchange="filterChange()">
+                    <br/>
+                    <a id="filterButton" href="/products"><button>Filter</button></a>
+                </td>
+                <td></td>
             </tr>
         </table>
     </div>
@@ -30,9 +81,11 @@
     <div th:if="${product!=null}">
         <table>
             <thead>
-            <th width="50">Id</th>
-            <th width="300">Title</th>
-            <th width="50">Cost</th>
+                <tr>
+                    <th style="width: 50px">Id</th>
+                    <th style="width: 300px">Title</th>
+                    <th style="width: 50px">Cost</th>
+                </tr>
             </thead>
             <tr>
                 <td th:text="${product.id}"></td>
@@ -46,10 +99,9 @@
 </div>
 <footer th:fragment="footer">
     <br/>
-    <a href="/add">Add product</a>&nbsp;&nbsp;&nbsp;
-    <a href="/remove">Remove product</a>&nbsp;&nbsp;&nbsp;
-    <a href="/get">Find product by id</a>&nbsp;&nbsp;&nbsp;
-    <a href="/update">Change product</a>
+    <a href="/products/add">Add product</a>&nbsp;&nbsp;&nbsp;
+    <a href="/products/get">Find product by id</a>&nbsp;&nbsp;&nbsp;
+    <!--    <a href="/update">Change product</a>-->
 </footer>
 </body>
 </html>

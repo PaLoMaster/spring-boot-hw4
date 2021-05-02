@@ -1,15 +1,13 @@
 package ru.khusyainov.controller;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.khusyainov.model.Product;
 
 import java.util.List;
 
-@Repository
-public interface ProductRepository {
-    void addProduct(Product product);
-    Product findById(int id);
-    List<Product> findAll();
-    void deleteById(int id);
-    Product saveOrUpdate(Product product);
+public interface ProductRepository extends JpaRepository<Product, Integer> {
+    List<Product> findByCostBetween(Integer minCost, Integer maxCost);
+    List<Product> findByCostLessThan(Integer maxCost);
+    List<Product> findByCostGreaterThan(Integer minCost);
 }

@@ -7,7 +7,8 @@ import java.util.List;
 @Table(name = "products")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "products_id_seq")
+    @SequenceGenerator(name = "products_id_seq", allocationSize = 1)
     @Column(name = "id")
     private int id;
     @Column(name = "title")

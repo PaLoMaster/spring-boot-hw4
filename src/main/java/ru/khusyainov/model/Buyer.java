@@ -59,6 +59,14 @@ public class Buyer {
         this.products = products;
     }
 
+    public void addProduct(Product product) {
+        this.products.add(product);
+    }
+
+    public void removeProduct(Product product) {
+        this.products.remove(product);
+    }
+
     @Override
     public String toString() {
         return "Buyer{" + "id=" + id + ", name='" + name + "'" + /*", products=" + products + */"}";
