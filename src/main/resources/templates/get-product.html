@@ -14,12 +14,8 @@
     }
 </script>
 <header th:insert="fragments/general.html :: header"> </header>
-<div th:if="${product!=null and product.id!=null and product.title==null}">
-    <h3>Продукт с id <span th:text="${product.id}"></span> не найден.</h3>
-</div>
-<div th:if="${product!=null and product.title!=null}">
-    <h3>Продукт с id <span th:text="${product.id}"></span>:</h3>
-<div th:insert="fragments/general.html :: one-product"> </div>
+<div th:if="${product!=null and product.id!=null}">
+    <div th:insert="fragments/general.html :: one-product"> </div>
 </div>
 <div>
     Введите id продукта для поиска:

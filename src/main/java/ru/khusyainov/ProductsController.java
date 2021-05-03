@@ -1,6 +1,9 @@
 package ru.khusyainov;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,12 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.khusyainov.controller.ProductRepository;
 import ru.khusyainov.model.Product;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/products")
 public class ProductsController {
     private ProductRepository productRepository;
+    private final int DEFAULT_PAGE_NUMBER = 0;
+    private int currentPage = DEFAULT_PAGE_NUMBER;
+    private final int DEFAULT_PAGE_SIZE = 10;
 
     @Autowired
     public void setProductRepository (ProductRepository productRepository) {
@@ -25,17 +29,32 @@ public class ProductsController {
     @RequestMapping(method = RequestMethod.GET)
     public String showAllProducts(Model uiModel,
                                   @RequestParam(required = false) Integer minCost,
-                                  @RequestParam(required = false) Integer maxCost){
-        List<Product> productsList;
-        if (minCost == null && maxCost == null)
-            productsList = productRepository.findAll();
-        else if (minCost != null && maxCost != null)
-            productsList = productRepository.findByCostBetween(minCost, maxCost);
-        else if (minCost != null)
-            productsList = productRepository.findByCostGreaterThan(minCost);
-        else
-            productsList = productRepository.findByCostLessThan(maxCost);
-        uiModel.addAttribute("productsList", productsList);
+                                  @RequestParam(required = false) Integer maxCost,
+                                  @RequestParam(defaultValue = DEFAULT_PAGE_NUMBER + "") int page,
+                                  @RequestParam(defaultValue = DEFAULT_PAGE_SIZE + "") int pageSize) {
+        Page<Product> productsPage;
+        StringBuilder urlQuery = new StringBuilder("/products?");
+        Pageable pageable = PageRequest.of(page, pageSize);
+        if (minCost == null && maxCost == null) {
+            productsPage = productRepository.findAll(pageable);
+        } else if (minCost != null && maxCost != null) {
+            productsPage = productRepository.findByCostBetween(minCost, maxCost, pageable);
+            urlQuery.append("minCost=").append(minCost).append("&maxCost=").append(maxCost).append("&");
+        } else if (minCost != null) {
+            productsPage = productRepository.findByCostGreaterThan(minCost, pageable);
+            urlQuery.append("minCost=").append(minCost).append("&");
+        } else {
+            productsPage = productRepository.findByCostLessThan(maxCost, pageable);
+            urlQuery.append("maxCost=").append(maxCost).append("&");
+        }
+        if (productsPage.getNumberOfElements() == 0 && productsPage.getPageable().hasPrevious()) {
+            return showAllProducts(uiModel, minCost, maxCost, page - 1, pageSize);
+        }
+        currentPage = page;
+        uiModel.addAttribute("urlQuery", urlQuery.toString());
+        uiModel.addAttribute("currentPage", currentPage);
+        uiModel.addAttribute("totalPages", productsPage.getTotalPages());
+        uiModel.addAttribute("productsList", productsPage.getContent());
         return "products";
     }
 
@@ -67,8 +86,10 @@ public class ProductsController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public String deleteProduct(Model uiModel, @PathVariable Integer id) {
+    public String deleteProduct(Model uiModel, @PathVariable Integer id,
+                                @RequestParam(required = false) Integer minCost,
+                                @RequestParam(required = false) Integer maxCost) {
         productRepository.deleteById(id);
-        return showAllProducts(uiModel, null, null);
+        return showAllProducts(uiModel, minCost, maxCost, currentPage, DEFAULT_PAGE_SIZE);
     }
 }
