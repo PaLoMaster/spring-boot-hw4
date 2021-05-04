@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
+    <th:block th:replace="fragments/general.html :: headerlines"> </th:block>
     <title>All products</title>
 </head>
 
 <body>
 <header th:insert="fragments/general.html :: header"> </header>
-<div th:insert="fragments/general.html :: all-products"> </div>
-<div th:insert="fragments/general.html :: footer"> </div>
+<div th:insert="fragments/all-products :: all-products"> </div>
+<th:block th:replace="fragments/general.html :: footer"> </th:block>
 </body>
 </html>

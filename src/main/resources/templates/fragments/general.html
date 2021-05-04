@@ -1,153 +1,20 @@
 <!DOCTYPE HTML>
 
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
-<head th:fragment="headerfiles">
+<th:block th:fragment="headerlines">
     <meta charset="UTF-8"/>
-</head>
+</th:block>
 <body>
 <div th:fragment="header">
     <h1><a href="/products">Products</a></h1>
     <br/>
-</div>
-<div th:fragment="all-products">
-    <div th:if="${productsList!=null and !productsList.isEmpty()}">
-        <div th:if="${totalPages==1}">Page: 1 of 1</div>
-        <script>
-            function filterChange() {
-                var minCost = document.getElementById('minCost');
-                if (minCost.value)
-                    minCost = 'minCost=' + minCost.value;
-                else
-                    minCost = null;
-                var maxCost = document.getElementById('maxCost');
-                if (maxCost.value)
-                    maxCost = 'maxCost=' + maxCost.value;
-                else
-                    maxCost = null;
-                var buttonHref = document.getElementById('filterButton');
-                if (minCost != null && maxCost != null)
-                    buttonHref.href = "/products?" + minCost + "&" + maxCost;
-                else if (minCost != null)
-                    buttonHref.href = "/products?" + minCost;
-                else
-                    buttonHref.href = "/products?" + maxCost;
-            }
-        </script>
-        <div th:if="${totalPages>1}">Pages:
-            <span th:each="page:${#numbers.sequence(0, totalPages-1)}">
-                <span th:if="${page==currentPage}" th:text="${page+1}"></span>
-                <span th:if="${page<=currentPage-5 and page==0}">
-                    <a th:href="${urlQuery}+'page=0'">1</a>
-                    <span> ... </span>
-                </span>
-                <a th:if="${page!=currentPage and page>=currentPage-5 and page<=currentPage+5}"
-                   th:href="${urlQuery}+'page='+${page+1}" th:text="${page+1}"></a>
-                <span th:if="${page>=currentPage+5 and page==totalPages-1}">
-                    <span> ... </span>
-                    <a th:href="${urlQuery}+'page='+${page+1}" th:text="${page+1}"></a>
-                </span>
-            </span>
-            <span th:text="' of '+${totalPages}"></span>
-            <br/>
-        </div>
-        <table>
-            <thead>
-            <tr>
-                <th style="width: 50px">Id</th>
-                <th style="width: 300px">Title</th>
-                <th style="width: 50px">Cost</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tr th:each="product : ${productsList}">
-                <td th:text="${product.id}"></td>
-                <td th:text="${product.title}"></td>
-                <td th:text="${product.cost}"></td>
-                <td><a th:with="urlQuery=${#httpServletRequest.getQueryString()}"
-                       th:href="'/products/delete/'+${product.id}+'?'+${urlQuery}">
-                    <button>Delete</button>
-                </a></td>
-            </tr>
-        </table>
-        <script>
-            function filterChange() {
-                var minCost = document.getElementById('minCost');
-                if (minCost.value)
-                    minCost = 'minCost=' + minCost.value;
-                else
-                    minCost = null;
-                var maxCost = document.getElementById('maxCost');
-                if (maxCost.value)
-                    maxCost = 'maxCost=' + maxCost.value;
-                else
-                    maxCost = null;
-                var buttonHref = document.getElementById('filterButton');
-                if (minCost != null && maxCost != null)
-                    buttonHref.href = "/products?" + minCost + "&" + maxCost;
-                else if (minCost != null)
-                    buttonHref.href = "/products?" + minCost;
-                else
-                    buttonHref.href = "/products?" + maxCost;
-            }
-        </script>
-        <table>
-            <thead>
-            <tr>
-                <th colspan="4" style="alignment: center">Filter</th>
-            </tr>
-            <tr>
-                <th style="width: 50px"></th>
-                <th style="width: 300px"></th>
-                <th style="width: 150px">Cost</th>
-            </tr>
-            </thead>
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                    <input type="number" id="minCost" name="minCost" placeholder="minCost" onchange="filterChange()">
-                    <br/>
-                    <input type="number" id="maxCost" name="maxCost" placeholder="maxCost" onchange="filterChange()">
-                    <br/>
-                    <a id="filterButton" href="/products"><button>Filter</button></a>
-                </td>
-                <td></td>
-            </tr>
-        </table>
-    </div>
-    <div th:if="${productsList!=null and productsList.isEmpty()}"><h3>Список продуктов пуст</h3></div>
-    <br/>
-</div>
-<div th:object="${product}" th:fragment="one-product">
-    <div th:if="${product!=null and product.id!=null and product.title!=null}">
-        <h3>Продукт с id <span th:text="${product.id}"></span>:</h3>
-        <div th:if="${product!=null}">
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 50px">Id</th>
-                        <th style="width: 300px">Title</th>
-                        <th style="width: 50px">Cost</th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td th:text="${product.id}"></td>
-                    <td th:text="${product.title}"></td>
-                    <td th:text="${product.cost}"></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <div th:if="${product!=null and product.id!=null and product.title==null}">
-        <h3>Продукт с id <span th:text="${product.id}"></span> не найден.</h3>
-    </div>
-    <br/>
-</div>
-<footer th:fragment="footer">
-    <br/>
     <a href="/products/add">Add product</a>&nbsp;&nbsp;&nbsp;
     <a href="/products/get">Find product by id</a>&nbsp;&nbsp;&nbsp;
     <!--    <a href="/update">Change product</a>-->
+    <br/>
+</div>
+<footer th:fragment="footer">
+    <div style="text-align: center; color: darkgrey">Renat Khusyainov</div>
 </footer>
 </body>
 </html>
