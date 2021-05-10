@@ -7,18 +7,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.NoSuchElementException;
 
 @ControllerAdvice
 @ResponseBody
 public class MyExceptionHandler {
 
-    @ExceptionHandler(NoSuchElementException.class)
+    @ExceptionHandler({NoSuchElementException.class, EntityNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String getNotFoundException(NoSuchElementException e) {
+    public String getNotFoundException(RuntimeException e) {
         System.out.println("Getting Error!");
         e.printStackTrace(System.out);
-        return e.getMessage();
+        return e.getMessage().replace("ru.khusyainov.model.", "").replace(" class ", " ");
     }
 
     @ExceptionHandler({IllegalArgumentException.class, EmptyResultDataAccessException.class})
@@ -26,6 +27,6 @@ public class MyExceptionHandler {
     public String deleteNotFoundException(RuntimeException e) {
         System.out.println("Deleting Error!");
         e.printStackTrace(System.out);
-        return e.getMessage().replace("class ru.khusyainov.model.", "");
+        return e.getMessage().replace("ru.khusyainov.model.", "").replace(" class ", " ");
     }
 }
