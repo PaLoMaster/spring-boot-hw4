@@ -1,4 +1,4 @@
-package ru.khusyainov.rest;
+package ru.khusyainov.web;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -8,25 +8,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.NoSuchElementException;
 
 @ControllerAdvice
 @ResponseBody
-public class MyExceptionHandler {
+public class WebExceptionHandler {
 
-    @ExceptionHandler({NoSuchElementException.class, EntityNotFoundException.class})
+    @ExceptionHandler({EntityNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String getNotFoundException(RuntimeException e) {
         System.out.println("Getting Error!");
         e.printStackTrace(System.out);
-        return e.getMessage().replace("ru.khusyainov.model.", "").replace(" class ", " ");
+        return e.getMessage().replace(" class ", " ");
     }
 
-    @ExceptionHandler({IllegalArgumentException.class, EmptyResultDataAccessException.class})
+    @ExceptionHandler({EmptyResultDataAccessException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String deleteNotFoundException(RuntimeException e) {
         System.out.println("Deleting Error!");
         e.printStackTrace(System.out);
-        return e.getMessage().replace("ru.khusyainov.model.", "").replace(" class ", " ");
+        return e.getMessage().replace(" class ", " ");
     }
 }

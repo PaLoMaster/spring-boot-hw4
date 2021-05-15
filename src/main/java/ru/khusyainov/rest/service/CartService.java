@@ -10,6 +10,7 @@ import ru.khusyainov.repository.CartRepository;
 import ru.khusyainov.rest.mapper.CartConverter;
 import ru.khusyainov.rest.mapper.ProductConverter;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -61,7 +62,9 @@ public class CartService {
 
     public CartDto addProduct(CartDto cartDto, Integer productId) {
         Cart cart = CartConverter.fromDto(cartDto);
-        Product product = productRepository.getOne(productId);
+        Product product = productRepository.findById(productId).
+                orElseThrow(() ->
+                        new EntityNotFoundException("Unable to find Product with id " + productId));
         cart.addProduct(product);
         cart = cartRepository.save(cart);
         return CartConverter.toDto(cart);

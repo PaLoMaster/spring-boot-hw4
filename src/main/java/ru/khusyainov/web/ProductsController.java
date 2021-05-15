@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.khusyainov.repository.ProductRepository;
 import ru.khusyainov.model.Product;
 
@@ -66,7 +64,7 @@ public class ProductsController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addProduct(Model uiModel, Product product) {
+    public String addProduct(Model uiModel, @RequestBody @NonNull Product product) {
         productRepository.save(product);
         uiModel.addAttribute("product", product);
         return "add-product";
@@ -79,14 +77,14 @@ public class ProductsController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String getProductById(Model uiModel, @PathVariable Integer id) {
+    public String getProductById(Model uiModel, @PathVariable @NonNull Integer id) {
         Product product = productRepository.findById(id).orElse(new Product(id, null, 0));
         uiModel.addAttribute("product", product);
         return "get-product";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public String deleteProduct(Model uiModel, @PathVariable Integer id,
+    public String deleteProduct(Model uiModel, @PathVariable @NonNull Integer id,
                                 @RequestParam(required = false) Integer minCost,
                                 @RequestParam(required = false) Integer maxCost) {
         productRepository.deleteById(id);
