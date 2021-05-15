@@ -34,7 +34,7 @@ ALTER TABLE buyers ADD COLUMN cart_id integer REFERENCES carts (id) ON DELETE CA
 
 -------------------carts_products-------------------
 
-CREATE TABLE carts_products (cart_id integer NOT NULL REFERENCES carts (id) ON DELETE CASCADE, product_id integer NOT NULL REFERENCES products (id));
+CREATE TABLE carts_products (cart_id integer NOT NULL REFERENCES carts (id), product_id integer NOT NULL REFERENCES products (id));
 
 -------------------insert---------------------------
 

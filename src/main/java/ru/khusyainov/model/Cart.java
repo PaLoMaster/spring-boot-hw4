@@ -18,7 +18,7 @@ public class Cart {
                 referencedColumnName = "id")
     private Buyer buyer;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "carts_products",
             joinColumns = @JoinColumn(
