@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.khusyainov.rest.dto.BuyerDto;
 import ru.khusyainov.rest.service.BuyerService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/buyers")
 public class BuyerRestController {
@@ -15,6 +17,11 @@ public class BuyerRestController {
     @Autowired
     public void setBuyerService(BuyerService buyerService) {
         this.buyerService = buyerService;
+    }
+
+    @GetMapping
+    public List<BuyerDto> getAll() {
+        return buyerService.findAll();
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
