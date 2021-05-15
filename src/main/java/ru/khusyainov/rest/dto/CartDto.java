@@ -6,22 +6,14 @@ import java.util.List;
 public class CartDto {
 
     private int id;
-    private BuyerDto buyer;
     private List<ProductDto> products;
 
     public CartDto() {
 
     }
 
-    public CartDto(int id, BuyerDto buyer) {
+    public CartDto(int id, List<ProductDto> products) {
         this.id = id;
-        this.buyer = buyer;
-        this.products = new ArrayList<>();
-    }
-
-    public CartDto(int id, BuyerDto buyer, List<ProductDto> products) {
-        this.id = id;
-        this.buyer = buyer;
         this.products = products;
     }
 
@@ -31,14 +23,6 @@ public class CartDto {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public BuyerDto getBuyer() {
-        return buyer;
-    }
-
-    public void setBuyer(BuyerDto buyer) {
-        this.buyer = buyer;
     }
 
     public List<ProductDto> getProducts() {
@@ -51,6 +35,6 @@ public class CartDto {
 
     @Override
     public String toString() {
-        return "Cart{" + "id=" + id + ", buyer=" + buyer + ", products=" + products + "}";
+        return "Cart{" + "id=" + id + ", products=" + products + "}";
     }
 }

@@ -12,14 +12,14 @@ public class CartConverter {
         if (cartDto == null) {
             return null;
         }
-        return new Cart(cartDto.getId(), BuyerConverter.fromDto(cartDto.getBuyer()), ProductConverter.fromDtoList(cartDto.getProducts()));
+        return new Cart(cartDto.getId(), null, ProductConverter.fromDtoList(cartDto.getProducts()));
     }
 
     public static CartDto toDto(Cart cart) {
         if (cart == null) {
             return null;
         }
-        return new CartDto(cart.getId(), BuyerConverter.toDto(cart.getBuyer()), ProductConverter.toDtoList(cart.getProducts()));
+        return new CartDto(cart.getId(), ProductConverter.toDtoList(cart.getProducts()));
     }
 
     public static List<Cart> fromDtoList(List<CartDto> cartDtos) {

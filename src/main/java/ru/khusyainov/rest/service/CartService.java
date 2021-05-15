@@ -38,6 +38,7 @@ public class CartService {
 
     public CartDto save(CartDto cartDto) {
         Cart cart = CartConverter.fromDto(cartDto);
+        cart.setBuyer(cartRepository.getOne(cart.getId()).getBuyer());
         cart = cartRepository.save(cart);
         return CartConverter.toDto(cart);
     }
