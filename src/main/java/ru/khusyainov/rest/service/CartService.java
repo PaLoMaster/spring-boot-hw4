@@ -8,7 +8,6 @@ import ru.khusyainov.rest.dto.ProductDto;
 import ru.khusyainov.model.Cart;
 import ru.khusyainov.repository.CartRepository;
 import ru.khusyainov.rest.mapper.CartConverter;
-import ru.khusyainov.rest.mapper.ProductConverter;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -45,20 +44,18 @@ public class CartService {
 
     public void delete(CartDto cartDto) {
         Cart cart = CartConverter.fromDto(cartDto);
-        cartRepository.delete(cart);
+        cart.clear();
+        cartRepository.save(cart);
     }
 
     public void delete(Integer cartId) {
         Cart cart = cartRepository.getOne(cartId);
-        cartRepository.delete(cart);
+        cart.clear();
+        cartRepository.save(cart);
     }
 
     public CartDto addProduct(CartDto cartDto, ProductDto productDto) {
-        Cart cart = CartConverter.fromDto(cartDto);
-        Product product = ProductConverter.fromDto(productDto);
-        cart.addProduct(product);
-        cart = cartRepository.save(cart);
-        return CartConverter.toDto(cart);
+        return addProduct(cartDto, productDto.getId());
     }
 
     public CartDto addProduct(CartDto cartDto, Integer productId) {
@@ -72,11 +69,7 @@ public class CartService {
     }
 
     public CartDto deleteProduct(CartDto cartDto, ProductDto productDto) {
-        Cart cart = CartConverter.fromDto(cartDto);
-        Product product = ProductConverter.fromDto(productDto);
-        cart.deleteProduct(product);
-        cart = cartRepository.save(cart);
-        return CartConverter.toDto(cart);
+        return deleteProduct(cartDto, productDto.getId());
     }
 
     public CartDto deleteProduct(CartDto cartDto, Integer productId) {
