@@ -17,15 +17,15 @@ public class Product {
     private int cost;
 
     @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
-    List<Buyer> buyers;
+    List<Cart> carts;
 
     public Product() {
     }
 
-    public Product(String title, int cost, List<Buyer> buyers) {
+    public Product(String title, int cost, List<Cart> carts) {
         this.title = title;
         this.cost = cost;
-        this.buyers = buyers;
+        this.carts = carts;
     }
 
     public Product(int id, String title, int cost) {
@@ -58,12 +58,12 @@ public class Product {
         this.cost = cost;
     }
 
-    public List<Buyer> getBuyers() {
-        return buyers;
+    public List<Cart> getCarts() {
+        return carts;
     }
 
-    public void setBuyers(List<Buyer> buyers) {
-        this.buyers = buyers;
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
     }
 
     @Override
