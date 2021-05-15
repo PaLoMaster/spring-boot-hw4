@@ -1,7 +1,6 @@
 package ru.khusyainov.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.khusyainov.rest.dto.ProductDto;
@@ -56,8 +55,7 @@ public class ProductRestController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public int delete(@PathVariable Integer id) {
+    public void delete(@PathVariable Integer id) {
         productService.delete(id);
-        return HttpStatus.OK.value();
     }
 }
