@@ -57,16 +57,4 @@ public class ProductService {
     public List<ProductDto> findByCostGreaterThan(Integer minCost) {
         return ProductConverter.toDtoList(productRepository.findByCostGreaterThan(minCost));
     }
-
-    public List<ProductDto> findByCostBetween(Integer minCost, Integer maxCost, Pageable pageable) {
-        return ProductConverter.toDtoList(productRepository.findByCostBetween(minCost, maxCost, pageable).getContent());
-    }
-
-    public List<ProductDto> findByCostLessThan(Integer maxCost, Pageable pageable) {
-        return ProductConverter.toDtoList(productRepository.findByCostLessThan(maxCost, pageable).getContent());
-    }
-
-    public List<ProductDto> findByCostGreaterThan(Integer minCost, Pageable pageable) {
-        return ProductConverter.toDtoList(productRepository.findByCostGreaterThan(minCost, pageable).getContent());
-    }
 }

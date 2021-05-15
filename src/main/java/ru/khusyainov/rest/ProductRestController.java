@@ -1,8 +1,6 @@
 package ru.khusyainov.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +13,6 @@ import java.util.List;
 @RequestMapping("/api/v1/products")
 public class ProductRestController {
     private ProductService productService;
-    private final int DEFAULT_PAGE_NUMBER = 0;
-    private final int DEFAULT_PAGE_SIZE = 10;
 
     @Autowired
     public void setProductService(ProductService productService) {
@@ -24,20 +20,22 @@ public class ProductRestController {
     }
 
     @GetMapping
-    public List<ProductDto> getAll(@RequestParam(required = false) Integer minCost,
-                                   @RequestParam(required = false) Integer maxCost,
-                                   @RequestParam(defaultValue = DEFAULT_PAGE_NUMBER + "") int page,
-                                   @RequestParam(defaultValue = DEFAULT_PAGE_SIZE + "") int pageSize) {
+    public List<ProductDto> getAll() {
+        return getAllFiltered(null, null);
+    }
+
+    @GetMapping(value = "/filter")
+    public List<ProductDto> getAllFiltered(@RequestParam Integer minCost,
+                                           @RequestParam Integer maxCost) {
         List<ProductDto> products;
-        Pageable pageable = PageRequest.of(page, pageSize);
         if (minCost == null && maxCost == null) {
-            products = productService.findAll(pageable);
+            products = productService.findAll();
         } else if (minCost != null && maxCost != null) {
-            products = productService.findByCostBetween(minCost, maxCost, pageable);
+            products = productService.findByCostBetween(minCost, maxCost);
         } else if (minCost != null) {
-            products = productService.findByCostGreaterThan(minCost, pageable);
+            products = productService.findByCostGreaterThan(minCost);
         } else {
-            products = productService.findByCostLessThan(maxCost, pageable);
+            products = productService.findByCostLessThan(maxCost);
         }
         return products;
     }
