@@ -2,6 +2,7 @@
 
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
+    <th:block th:replace="fragments/general.html :: headerlines"> </th:block>
     <title>Add new product</title>
 </head>
 
@@ -9,7 +10,7 @@
 <header th:insert="fragments/general.html :: header"> </header>
 <div th:if="${product!=null and product.title!=null}">
     <h3>Продукт успешно добавлен:</h3>
-<div th:insert="fragments/general.html :: one-product"> </div>
+<div th:insert="fragments/one-product :: one-product"> </div>
     Можете добавить ещё продукт:
 </div>
 <form th:action="@{/products/add}" th:object="${product}" method="post">
@@ -19,6 +20,6 @@
     <br>
     <button type="submit">Save</button>
 </form>
-<div th:insert="fragments/general.html :: footer"></div>
+<th:block th:replace="fragments/general.html :: footer"> </th:block>
 </body>
 </html>

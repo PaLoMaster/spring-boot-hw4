@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<body>
+<div th:object="${product}" th:fragment="one-product">
+    <div th:if="${product!=null and product.id!=null and product.title!=null}">
+        <h3>Продукт с id <span th:text="${product.id}"></span>:</h3>
+        <div th:if="${product!=null}">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 50px">Id</th>
+                        <th style="width: 300px">Title</th>
+                        <th style="width: 50px">Cost</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td th:text="${product.id}"></td>
+                    <td th:text="${product.title}"></td>
+                    <td th:text="${product.cost}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div th:if="${product!=null and product.id!=null and product.title==null}">
+        <h3>Продукт с id <span th:text="${product.id}"></span> не найден.</h3>
+    </div>
+    <br/>
+</div>
+</body>
+</html>
