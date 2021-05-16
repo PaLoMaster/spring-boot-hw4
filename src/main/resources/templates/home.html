@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="ru">
+<head>
+    <th:block th:replace="fragments/general.html :: headerlines"> </th:block>
+    <title>Welcome page</title>
+</head>
+<body>
+<h1>Welcome!</h1>
+
+<p>Click <a href="/products">here</a> for products.</p>
+<th:block th:replace="fragments/general.html :: footer"> </th:block>
+</body>
+</html>
