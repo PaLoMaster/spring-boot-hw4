@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<div th:fragment="all-users">
+    <div th:if="${usersList!=null and !usersList.isEmpty()}">
+        <table>
+            <thead>
+            <tr>
+                <th style="width: 150px">Username</th>
+                <th style="width: 90px">Enabled</th>
+                <th style="width: 200px">Roles</th>
+                <th sec:authorize="hasRole('ROLE_SUPERUSER')"></th>
+                <th sec:authorize="hasRole('ROLE_SUPERUSER')"></th>
+            </tr>
+            </thead>
+            <tr th:each="user : ${usersList}">
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.enabled}"></td>
+                <td>
+                    <div th:each="role : ${user.roles}" th:text="${role.name}"></div>
+                </td>
+                <td sec:authorize="hasRole('ROLE_SUPERUSER')">
+                    <a th:href="'/users/delete/'+${user.username}">
+                    <button>Delete</button>
+                </a></td>
+                <td sec:authorize="hasRole('ROLE_SUPERUSER')">
+                    <a th:href="'/users/edit/'+${user.username}">
+                    <button>Edit</button>
+                </a></td>
+            </tr>
+        </table>
+    </div>
+    <div th:if="${usersList!=null and usersList.isEmpty()}"><h3>Список пользователей пуст</h3></div>
+    <br/>
+</div>
+</body>
+</html>

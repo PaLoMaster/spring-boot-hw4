@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <div th:fragment="all-products">
     <div th:if="${productsList!=null and !productsList.isEmpty()}">
@@ -28,16 +28,22 @@
                 <th style="width: 50px">Id</th>
                 <th style="width: 300px">Title</th>
                 <th style="width: 50px">Cost</th>
-                <th></th>
+                <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')"></th>
+                <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')"></th>
             </tr>
             </thead>
             <tr th:each="product : ${productsList}">
                 <td th:text="${product.id}"></td>
                 <td th:text="${product.title}"></td>
                 <td th:text="${product.cost}"></td>
-                <td><a th:with="urlQuery=${#httpServletRequest.getQueryString()}"
+                <td sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
+                    <a th:with="urlQuery=${#httpServletRequest.getQueryString()}"
                        th:href="'/products/delete/'+${product.id}+'?'+${urlQuery}">
                     <button>Delete</button>
+                </a></td>
+                <td sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
+                    <a th:href="'/products/edit/'+${product.id}">
+                    <button>Edit</button>
                 </a></td>
             </tr>
         </table>

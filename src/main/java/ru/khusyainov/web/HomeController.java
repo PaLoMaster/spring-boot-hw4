@@ -11,4 +11,9 @@ public class HomeController {
     public String getHomePage() {
         return "home";
     }
+
+    @RequestMapping("/login")
+    public String login() {
+        return "modern-login";
+    }
 }
