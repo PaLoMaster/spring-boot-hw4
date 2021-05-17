@@ -5,27 +5,6 @@
 <div th:fragment="all-products">
     <div th:if="${productsList!=null and !productsList.isEmpty()}">
         <div th:if="${totalPages==1}">Page: 1 of 1</div>
-        <script>
-            function filterChange() {
-                var minCost = document.getElementById('minCost');
-                if (minCost.value)
-                    minCost = 'minCost=' + minCost.value;
-                else
-                    minCost = null;
-                var maxCost = document.getElementById('maxCost');
-                if (maxCost.value)
-                    maxCost = 'maxCost=' + maxCost.value;
-                else
-                    maxCost = null;
-                var buttonHref = document.getElementById('filterButton');
-                if (minCost != null && maxCost != null)
-                    buttonHref.href = "/products?" + minCost + "&" + maxCost;
-                else if (minCost != null)
-                    buttonHref.href = "/products?" + minCost;
-                else
-                    buttonHref.href = "/products?" + maxCost;
-            }
-        </script>
         <div th:if="${totalPages>1}">Pages:
             <span th:each="page:${#numbers.sequence(0, totalPages-1)}">
                 <span th:if="${page==currentPage}" th:text="${page+1}"></span>
@@ -34,10 +13,10 @@
                     <span> ... </span>
                 </span>
                 <a th:if="${page!=currentPage and page>=currentPage-5 and page<=currentPage+5}"
-                   th:href="${urlQuery}+'page='+${page+1}" th:text="${page+1}"></a>
+                   th:href="${urlQuery}+'page='+${page}" th:text="${page+1}"></a>
                 <span th:if="${page>=currentPage+5 and page==totalPages-1}">
                     <span> ... </span>
-                    <a th:href="${urlQuery}+'page='+${page+1}" th:text="${page+1}"></a>
+                    <a th:href="${urlQuery}+'page='+${page}" th:text="${page+1}"></a>
                 </span>
             </span>
             <span th:text="' of '+${totalPages}"></span>

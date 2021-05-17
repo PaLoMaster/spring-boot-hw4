@@ -16,7 +16,7 @@ public class Product {
     @Column(name = "cost")
     private int cost;
 
-    @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     List<Cart> carts;
 
     public Product() {
