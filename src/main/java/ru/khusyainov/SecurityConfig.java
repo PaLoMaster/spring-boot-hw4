@@ -1,5 +1,6 @@
 package ru.khusyainov;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -13,12 +14,9 @@ import ru.khusyainov.service.UserService;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private UserService userService;
-
-    public SecurityConfig(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

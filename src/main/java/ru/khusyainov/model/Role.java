@@ -1,31 +1,18 @@
-﻿package ru.khusyainov.model;
+package ru.khusyainov.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Role {
     @Id
     @Column(name = "role")
     private String name;
-
-    public Role(String name) {
-        this.name = name;
-    }
-
-    public Role() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" + "name='" + name + "'}";
-    }
 }
