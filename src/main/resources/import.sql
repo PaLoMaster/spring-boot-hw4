@@ -67,6 +67,7 @@ UPDATE buyers SET cart_id = (SELECT id FROM carts WHERE carts.buyer_id = buyers.
 INSERT INTO carts_products (cart_id, product_id) VALUES (1, 1), (1, 3), (1, 6), (2, 1), (2, 2), (2, 3), (2, 4), (2, 5), (3, 1), (3, 2), (4, 1), (4, 6), (5, 1), (5, 3), (5, 4), (5, 5);
 
 INSERT INTO users (username, password, enabled) VALUES ('user1', '$2a$10$MbqNH9ECOg4buAGubV5wZOfiEgnFLqGI0X609flPVMadDlq1ifI9O', true), ('user2', '$2a$10$2sbq.u7aVEV6/kBac3QJTeZACQcLK7odlMd8bFXPOmOvGeyTsbGIq', true), ('user3', '$2a$10$3jNJ5sWbi8i8d9r5pZooOu7ky79vsl93Ptv4gg9XN5XCZ.C0U/b3u', true);
+-- Пароль один для всех, из методички: {noop}123
 
 INSERT INTO roles (role) VALUES ('ROLE_SUPERUSER'), ('ROLE_ADMIN'), ('ROLE_MANAGER'), ('ROLE_USER');
 
