@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <th:block th:replace="fragments/general.html :: headerlines"> </th:block>
     <title>Get product</title>
@@ -16,7 +16,7 @@
 </script>
 <header th:insert="fragments/general.html :: header"> </header>
 <div th:if="${product!=null and product.id!=null}">
-    <div th:insert="fragments/one-product :: one-product"> </div>
+    <div th:insert="products/fragments/one-product :: one-product"> </div>
 </div>
 <div>
     Введите id продукта для поиска:

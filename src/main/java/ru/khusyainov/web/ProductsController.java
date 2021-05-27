@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -53,41 +54,62 @@ public class ProductsController {
         uiModel.addAttribute("currentPage", currentPage);
         uiModel.addAttribute("totalPages", productsPage.getTotalPages());
         uiModel.addAttribute("productsList", productsPage.getContent());
-        return "products";
+        return "products/products";
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String getAddProduct(Model uiModel){
         Product product = new Product();
         uiModel.addAttribute("product", product);
-        return "add-product";
+        return "products/add-product";
     }
 
+    @Secured({"ROLE_MANAGER", "ROLE_ADMIN", "ROLE_SUPERUSER"})
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addProduct(Model uiModel, @RequestBody @NonNull Product product) {
+    public String addProduct(Model uiModel, @NonNull Product product) {
         productRepository.save(product);
         uiModel.addAttribute("product", product);
-        return "add-product";
+        return "products/add-product";
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public String getProduct(Model uiModel) {
         uiModel.addAttribute("product", null);
-        return "get-product";
+        return "products/get-product";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getProductById(Model uiModel, @PathVariable @NonNull Integer id) {
         Product product = productRepository.findById(id).orElse(new Product(id, null, 0));
         uiModel.addAttribute("product", product);
-        return "get-product";
+        return "products/get-product";
     }
 
+    @Secured({"ROLE_MANAGER", "ROLE_ADMIN", "ROLE_SUPERUSER"})
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteProduct(Model uiModel, @PathVariable @NonNull Integer id,
                                 @RequestParam(required = false) Integer minCost,
                                 @RequestParam(required = false) Integer maxCost) {
         productRepository.deleteById(id);
         return showAllProducts(uiModel, minCost, maxCost, currentPage, DEFAULT_PAGE_SIZE);
+    }
+
+    @Secured({"ROLE_MANAGER", "ROLE_ADMIN", "ROLE_SUPERUSER"})
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String getEditProduct(Model uiModel, @PathVariable @NonNull Integer id){
+        Product product = productRepository.getOne(id);
+        uiModel.addAttribute("changed", false);
+        uiModel.addAttribute("product", product);
+        return "products/edit-product";
+    }
+
+    @Secured({"ROLE_MANAGER", "ROLE_ADMIN", "ROLE_SUPERUSER"})
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String editProduct(Model uiModel, @NonNull Product product) {
+        productRepository.save(product);
+        uiModel.addAttribute("changed", true);
+        uiModel.addAttribute("product", product);
+        return "products/edit-product";
     }
 }

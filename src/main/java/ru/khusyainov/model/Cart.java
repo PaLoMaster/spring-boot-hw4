@@ -1,11 +1,19 @@
 package ru.khusyainov.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "carts")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Cart {
 
     @Id
@@ -13,6 +21,7 @@ public class Cart {
     @Column(name = "id")
     private int id;
 
+    @ToString.Exclude
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "buyer_id",
                 referencedColumnName = "id")
@@ -29,19 +38,10 @@ public class Cart {
                     referencedColumnName = "id"))
     private List<Product> products;
 
-    public Cart() {
-
-    }
-
     public Cart(int id, Buyer buyer) {
         this.id = id;
         this.buyer = buyer;
         this.products = new ArrayList<>();
-    }
-
-    public Cart(int id, Buyer buyer, List<Product> products) {
-        this(id, buyer);
-        this.products = products;
     }
 
     public Cart(Buyer buyer) {
@@ -50,30 +50,6 @@ public class Cart {
 
     public Cart(Buyer buyer, List<Product> products) {
         this.buyer = buyer;
-        this.products = products;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Buyer getBuyer() {
-        return buyer;
-    }
-
-    public void setBuyer(Buyer buyer) {
-        this.buyer = buyer;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
         this.products = products;
     }
 
@@ -95,10 +71,5 @@ public class Cart {
 
     public void clear() {
         this.products = new ArrayList<>();
-    }
-
-    @Override
-    public String toString() {
-        return "Cart{" + "id=" + id + ", buyer=" + buyer + ", products=" + products + "}";
     }
 }

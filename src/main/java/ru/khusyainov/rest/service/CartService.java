@@ -1,5 +1,6 @@
 package ru.khusyainov.rest.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.khusyainov.model.Product;
 import ru.khusyainov.repository.ProductRepository;
@@ -13,15 +14,11 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CartService {
 
-    private CartRepository cartRepository;
-    private ProductRepository productRepository;
-
-    public CartService(CartRepository cartRepository, ProductRepository productRepository) {
-        this.cartRepository = cartRepository;
-        this.productRepository = productRepository;
-    }
+    private final CartRepository cartRepository;
+    private final ProductRepository productRepository;
 
     public List<CartDto> findAll() {
         return CartConverter.toDtoList(cartRepository.findAll());

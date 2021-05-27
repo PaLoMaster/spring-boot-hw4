@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="fragments/general.html :: headerlines"> </th:block>
+    <title>Add new user</title>
+</head>
+
+<body>
+<header th:insert="fragments/general.html :: header"> </header>
+<div th:if="${user!=null and changed}">
+    <h3>Пользователь успешно добавлен:</h3>
+<div th:insert="users/fragments/one-user :: one-user"> </div>
+    Можете добавить ещё пользователя:
+</div>
+<form th:action="@{/users/add}" th:object="${user}" method="post">
+    Username: <input type="text" th:field="*{username}"/>
+    <br>
+    Password: <input type="text" th:field="*{password}"/>
+    <br>
+    Enabled: <input type="text" th:field="*{enabled}"/>
+    <br>
+    Role(s): <input type="text" name="userRoles" th:value="${userRoles}"/>
+    <br>
+    <button type="submit">Save</button>
+</form>
+<th:block th:replace="fragments/general.html :: footer"> </th:block>
+</body>
+</html>

@@ -1,16 +1,22 @@
 <!DOCTYPE HTML>
 
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:fragment="headerlines">
     <meta charset="UTF-8"/>
 </th:block>
 <body>
 <div th:fragment="header">
     <h1><a href="/products">Products</a></h1>
+    <div sec:authorize="isAuthenticated()" style="text-align: right">
+        Hello, <span sec:authentication="principal.username"></span><br/>
+        Your roles: <span sec:authentication="principal.authorities"></span>
+    </div>
     <br/>
-    <a href="/products/add">Add product</a>&nbsp;&nbsp;&nbsp;
     <a href="/products/get">Find product by id</a>&nbsp;&nbsp;&nbsp;
-    <!--    <a href="/update">Change product</a>-->
+    <a sec:authorize="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN', 'ROLE_SUPERUSER')" href="/products/add">Add product</a>&nbsp;&nbsp;&nbsp;
+    <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERUSER')" href="/users">Users</a>&nbsp;&nbsp;&nbsp;
+    <a sec:authorize="hasRole('ROLE_SUPERUSER')" href="/users/add">Add user</a>&nbsp;&nbsp;&nbsp;
+    <a href="/login?logout">Logout</a>&nbsp;&nbsp;&nbsp;
     <br/>
 </div>
 <footer th:fragment="footer">
