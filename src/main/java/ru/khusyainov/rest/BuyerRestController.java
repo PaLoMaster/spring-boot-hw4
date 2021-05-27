@@ -1,6 +1,6 @@
 package ru.khusyainov.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -11,13 +11,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/buyers")
+@RequiredArgsConstructor
 public class BuyerRestController {
-    private BuyerService buyerService;
-
-    @Autowired
-    public void setBuyerService(BuyerService buyerService) {
-        this.buyerService = buyerService;
-    }
+    private final BuyerService buyerService;
 
     @GetMapping
     public List<BuyerDto> getAll() {

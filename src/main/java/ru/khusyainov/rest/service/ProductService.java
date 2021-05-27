@@ -1,5 +1,6 @@
 package ru.khusyainov.rest.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.khusyainov.rest.dto.ProductDto;
@@ -10,13 +11,10 @@ import ru.khusyainov.rest.mapper.ProductConverter;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
-    private ProductRepository productRepository;
-
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    private final ProductRepository productRepository;
 
     public List<ProductDto> findAll() {
         return ProductConverter.toDtoList(productRepository.findAll());

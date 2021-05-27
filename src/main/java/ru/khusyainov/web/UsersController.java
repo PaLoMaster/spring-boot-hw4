@@ -12,7 +12,6 @@ import ru.khusyainov.repository.UserRepository;
 import java.util.stream.Collectors;
 
 @Controller
-@Secured({"ROLE_ADMIN", "ROLE_SUPERUSER"})
 @RequestMapping("/users")
 public class UsersController {
     private UserRepository userRepository;
@@ -29,6 +28,7 @@ public class UsersController {
         return "users/users";
     }
 
+    @Secured({"ROLE_SUPERUSER"})
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String getAddUser(Model uiModel){
         User user = new User();

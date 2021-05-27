@@ -1,4 +1,4 @@
-﻿package ru.khusyainov.repository;
+package ru.khusyainov.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.khusyainov.model.User;

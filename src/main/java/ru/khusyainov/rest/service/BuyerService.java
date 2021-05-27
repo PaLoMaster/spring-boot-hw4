@@ -1,5 +1,6 @@
 package ru.khusyainov.rest.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.khusyainov.rest.dto.BuyerDto;
 import ru.khusyainov.model.Buyer;
@@ -9,13 +10,10 @@ import ru.khusyainov.rest.mapper.BuyerConverter;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BuyerService {
 
-    private BuyerRepository buyerRepository;
-
-    public BuyerService(BuyerRepository buyerRepository) {
-        this.buyerRepository = buyerRepository;
-    }
+    private final BuyerRepository buyerRepository;
 
     public List<BuyerDto> findAll() {
         return BuyerConverter.toDtoList(buyerRepository.findAll());

@@ -1,4 +1,8 @@
-﻿package ru.khusyainov.model;
+package ru.khusyainov.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -7,6 +11,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -30,39 +37,6 @@ public class User {
                     referencedColumnName = "role"))
     private List<Role> roles;
 
-    public User() {
-    }
-
-    public User(String username, String password, List<Role> roles) {
-        this.username = username;
-        this.password = password;
-        this.roles = roles;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
     public void enable() {
         this.enabled = true;
     }
@@ -71,21 +45,8 @@ public class User {
         this.enabled = false;
     }
 
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
     public void setRoles(String rolesString) {
         roles = new ArrayList<>();
         Arrays.stream(rolesString.split(",")).forEach(role -> roles.add(new Role("ROLE_" + role.toUpperCase().replaceAll(" ", ""))));
-    }
-
-    @Override
-    public String toString() {
-        return "User{" + "username='" + username + "', password='" + password + "', roles=" + roles + "}";
     }
 }
