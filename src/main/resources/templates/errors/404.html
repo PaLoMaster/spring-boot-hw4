@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="fragments/general.html :: headerlines"> </th:block>
+    <title>All products</title>
+</head>
+
+<body>
+<header th:insert="fragments/general.html :: header"> </header>
+<h1>Something went wrong!</h1>
+<h2>Page not found</h2>
+<a href="/products">Go to products</a>
+<th:block th:replace="fragments/general.html :: footer"> </th:block>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="fragments/general.html :: headerlines"> </th:block>
+    <title>Get product</title>
+</head>
+
+<body>
+<header th:insert="fragments/general.html :: header"> </header>
+<div th:if="${product!=null and product.id!=null}">
+    <div th:insert="products/fragments/one-product :: one-product"> </div>
+</div>
+<form th:action="@{/products/get}" method="get">
+    Введите id продукта для поиска:
+    Id: <input type="number" id="id" name="id" />
+    <br/>
+    <button type="submit">Find</button>
+</form>
+<th:block th:replace="fragments/general.html :: footer"> </th:block>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="fragments/general.html :: headerlines"> </th:block>
+    <title>All products</title>
+</head>
+
+<body>
+<header th:insert="fragments/general.html :: header"> </header>
+<div th:insert="products/fragments/all-products :: all-products"> </div>
+<th:block th:replace="fragments/general.html :: footer"> </th:block>
+</body>
+</html>

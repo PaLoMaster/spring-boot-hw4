@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="fragments/general.html :: headerlines"> </th:block>
+    <title>Edit user</title>
+</head>
+
+<body>
+<header th:insert="fragments/general.html :: header"> </header>
+<div th:if="${changed}">
+    <h3>Пользователь успешно изменён:</h3>
+<div th:insert="users/fragments/one-user :: one-user"> </div>
+    Можете продолжить изменение:
+</div>
+<form th:action="@{/users/edit}" th:object="${user}" method="post">
+    Username: <input type="text" th:field="*{username}"/>
+    <br>
+    Password: <input type="text" th:field="*{password}"/>
+    <br>
+    Enabled: <input type="text" th:field="*{enabled}"/>
+    <br>
+    Role(s): <input type="text" name="userRoles" th:value="${userRoles}"/>
+    <div hidden th:each="role, i : *{roles}">
+        <input th:field="*{roles[__${i.index}__].name}"/>
+    </div>
+    <br>
+    <button type="submit">Save</button>
+</form>
+<th:block th:replace="fragments/general.html :: footer"> </th:block>
+</body>
+</html>

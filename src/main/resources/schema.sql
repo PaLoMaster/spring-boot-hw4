@@ -1,0 +1,24 @@
+-- DROP TABLE IF EXISTS buyers_products CASCADE;
+--
+-- DROP TABLE IF EXISTS buyers CASCADE;
+--
+-- DROP TABLE IF EXISTS products CASCADE;
+--
+-- CREATE TABLE products
+-- (
+--     id    integer NOT NULL PRIMARY KEY,
+--     cost  integer,
+--     title varchar(255)
+-- );
+--
+-- CREATE TABLE buyers
+-- (
+--     id   integer NOT NULL PRIMARY KEY,
+--     name varchar(255)
+-- );
+--
+-- CREATE TABLE buyers_products
+-- (
+--     buyer_id   integer NOT NULL REFERENCES buyers (id),
+--     product_id integer NOT NULL REFERENCES products (id)
+-- );
