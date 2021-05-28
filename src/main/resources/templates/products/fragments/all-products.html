@@ -47,51 +47,32 @@
                 </a></td>
             </tr>
         </table>
-        <script>
-            function filterChange() {
-                var minCost = document.getElementById('minCost');
-                if (minCost.value)
-                    minCost = 'minCost=' + minCost.value;
-                else
-                    minCost = null;
-                var maxCost = document.getElementById('maxCost');
-                if (maxCost.value)
-                    maxCost = 'maxCost=' + maxCost.value;
-                else
-                    maxCost = null;
-                var buttonHref = document.getElementById('filterButton');
-                if (minCost != null && maxCost != null)
-                    buttonHref.href = "/products?" + minCost + "&" + maxCost;
-                else if (minCost != null)
-                    buttonHref.href = "/products?" + minCost;
-                else
-                    buttonHref.href = "/products?" + maxCost;
-            }
-        </script>
-        <table>
-            <thead>
-            <tr>
-                <th colspan="4" style="alignment: center">Filter</th>
-            </tr>
-            <tr>
-                <th style="width: 50px"></th>
-                <th style="width: 300px"></th>
-                <th style="width: 150px">Cost</th>
-            </tr>
-            </thead>
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                    <input type="number" id="minCost" name="minCost" placeholder="minCost" onchange="filterChange()">
-                    <br/>
-                    <input type="number" id="maxCost" name="maxCost" placeholder="maxCost" onchange="filterChange()">
-                    <br/>
-                    <a id="filterButton" href="/products"><button>Filter</button></a>
-                </td>
-                <td></td>
-            </tr>
-        </table>
+        <form th:action="@{/products}" method="get">
+            <table>
+                <thead>
+                <tr>
+                    <th colspan="4" style="alignment: center">Filter</th>
+                </tr>
+                <tr>
+                    <th style="width: 50px"></th>
+                    <th style="width: 300px"></th>
+                    <th style="width: 150px">Cost</th>
+                </tr>
+                </thead>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <input type="number" id="minCost" name="minCost" placeholder="minCost" />
+                        <br/>
+                        <input type="number" id="maxCost" name="maxCost" placeholder="maxCost" />
+                        <br/>
+                        <button type="submit">Filter</button>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
     </div>
     <div th:if="${productsList!=null and productsList.isEmpty()}"><h3>Список продуктов пуст</h3></div>
     <br/>

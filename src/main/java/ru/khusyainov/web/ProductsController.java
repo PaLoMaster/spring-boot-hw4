@@ -21,7 +21,7 @@ public class ProductsController {
     private final int DEFAULT_PAGE_SIZE = 10;
 
     @Autowired
-    public void setProductRepository (ProductRepository productRepository) {
+    public void setProductRepository(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
@@ -59,7 +59,7 @@ public class ProductsController {
 
     @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String getAddProduct(Model uiModel){
+    public String getAddProduct(Model uiModel) {
         Product product = new Product();
         uiModel.addAttribute("product", product);
         return "products/add-product";
@@ -74,14 +74,13 @@ public class ProductsController {
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public String getProduct(Model uiModel) {
-        uiModel.addAttribute("product", null);
-        return "products/get-product";
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String getProductById(Model uiModel, @PathVariable @NonNull Integer id) {
-        Product product = productRepository.findById(id).orElse(new Product(id, null, 0));
+    public String getProduct(Model uiModel, Integer id) {
+        Product product;
+        if (id != null) {
+            product = productRepository.findById(id).orElse(new Product(id, null, 0));
+        } else {
+            product = null;
+        }
         uiModel.addAttribute("product", product);
         return "products/get-product";
     }
@@ -97,7 +96,7 @@ public class ProductsController {
 
     @Secured({"ROLE_MANAGER", "ROLE_ADMIN", "ROLE_SUPERUSER"})
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String getEditProduct(Model uiModel, @PathVariable @NonNull Integer id){
+    public String getEditProduct(Model uiModel, @PathVariable @NonNull Integer id) {
         Product product = productRepository.getOne(id);
         uiModel.addAttribute("changed", false);
         uiModel.addAttribute("product", product);
